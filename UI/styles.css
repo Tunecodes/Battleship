@@ -1,0 +1,29 @@
+
+.container{
+  display: flex;
+  justify-self: center;
+  justify-content: center;
+  align-items: center;
+  width: 70rem;
+  height: 50rem;
+  gap: 10rem;
+  background-color: rgb(139, 128, 128);
+}
+
+.playerBoard, .computerBoard{
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  width: 25rem;
+  height: 25rem;
+  gap: 2px;
+}
+
+.playBlock, .computerBlock{
+  background-color: rgb(72, 72, 112);
+}
+
+.playBlock:hover, .computerBlock:hover{
+  cursor: pointer;
+  transform: scale(1.03);
+}

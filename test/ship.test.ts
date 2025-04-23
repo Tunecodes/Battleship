@@ -23,8 +23,8 @@ describe("test gameboard", () => {
     const realBoard = new GameBoard();
     realBoard.placeShip(1, 1, 3, "horizontal");
     testBoard[1][1] = realBoard.ships[0];
-    testBoard[2][1] = realBoard.ships[0];
-    testBoard[3][1] = realBoard.ships[0];
+    testBoard[1][2] = realBoard.ships[0];
+    testBoard[1][3] = realBoard.ships[0];
 
     expect(realBoard.board).toEqual(testBoard);
   });
@@ -35,8 +35,8 @@ describe("test gameboard", () => {
     const realBoard = new GameBoard();
     realBoard.placeShip(4, 4, 3, "vertical");
     testBoard[4][4] = realBoard.ships[0];
-    testBoard[4][5] = realBoard.ships[0];
-    testBoard[4][6] = realBoard.ships[0];
+    testBoard[5][4] = realBoard.ships[0];
+    testBoard[6][4] = realBoard.ships[0];
 
     expect(realBoard.board).toEqual(testBoard);
   });
@@ -53,7 +53,7 @@ describe("test gameboard", () => {
     const newGame = new GameBoard();
     newGame.placeShip(1, 1, 2, "horizontal");
     newGame.receiveAttack(1, 1)
-    newGame.receiveAttack(2, 1)
+    newGame.receiveAttack(1, 2)
     expect(newGame.ships[0].hit).toEqual(2)
   })
 
@@ -61,7 +61,7 @@ describe("test gameboard", () => {
     const newGame = new GameBoard();
     newGame.placeShip(1, 1, 2, "horizontal");
     newGame.receiveAttack(1, 1)
-    newGame.receiveAttack(2, 1)
+    newGame.receiveAttack(1, 2)
     expect(newGame.ships[0].sunk).toEqual(true)
   })
 
@@ -70,6 +70,13 @@ describe("test gameboard", () => {
     newGame.placeShip(1, 1, 2, "horizontal");
     newGame.receiveAttack(4, 4)
     expect(newGame.board[4][4]).toMatch("missed")
+  })
+
+  test("ship missed", () => {
+    const newGame = new GameBoard();
+    newGame.placeShip(1, 1, 2, "horizontal");
+    const result = newGame.receiveAttack(4, 4)
+    expect(result).toMatch("missed")
   })
 });
 

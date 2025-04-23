@@ -9,8 +9,8 @@ export class GameBoard {
     const ship = new Ship(length);
 
     for (let i = 0; i < length; i++) {
-      let xi = x + (direction === "horizontal" ? i : 0);
-      let yi = y + (direction === "vertical" ? i : 0);
+      let xi = x + (direction === "vertical" ? i : 0);
+      let yi = y + (direction === "horizontal" ? i : 0);
 
       if (
         xi > this.board.length ||
@@ -22,8 +22,8 @@ export class GameBoard {
     }
 
     for (let i = 0; i < length; i++) {
-      let xi = x + (direction === "horizontal" ? i : 0);
-      let yi = y + (direction === "vertical" ? i : 0);
+      let xi = x + (direction === "vertical" ? i : 0);
+      let yi = y + (direction === "horizontal" ? i : 0);
       this.board[xi][yi] = ship;
     }
 
@@ -40,9 +40,24 @@ export class GameBoard {
     } else {
       this.board[x][y] = "missed";
     }
-
-    
+    return this.board[x][y]
   }
+
+  renderGameBoard(gameboard, className, containerName) {
+    const container = document.querySelector(`.${containerName}`);
+    gameboard.forEach((item) => {
+      item.forEach(() => {
+        const block = document.createElement("div");
+        block.className = className;
+        container.appendChild(block);
+      });
+    });
+  }
+
+  allShipSunk(){
+    return this.ships.every(ship => ship.sunk)
+  }
+  
 
 
 
