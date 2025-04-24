@@ -66,9 +66,7 @@ export class GameBoard {
     return this.ships.every(ship => ship.sunk)
   }
 
-  getShip(x, y) {
-    return 
-  }
+
   
 
 

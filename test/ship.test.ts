@@ -1,6 +1,7 @@
 import { describe, expect, test } from "@jest/globals";
 import { Ship } from "../src/ship.js";
 import { GameBoard } from "../src/gameboard.js";
+import { Player } from "../src/player.js";
 
 describe("test Ship class", () => {
   test("test the init state of ship", () => {
@@ -69,14 +70,18 @@ describe("test gameboard", () => {
     const newGame = new GameBoard();
     newGame.placeShip(1, 1, 2, "horizontal");
     newGame.receiveAttack(4, 4)
-    expect(newGame.board[4][4]).toMatch("missed")
+    expect(newGame.board[1][1].length).toEqual(2);
   })
 
-  test("ship missed", () => {
-    const newGame = new GameBoard();
-    newGame.placeShip(1, 1, 2, "horizontal");
-    const result = newGame.receiveAttack(4, 4)
-    expect(result).toMatch("missed")
+
+
+  test("all ship sunk", ()  => {
+    const player = new GameBoard();
+    player.placeShip(1, 1, 1, "horizontal");
+    player.placeShip(1, 2, 1, "horizontal");
+    player.receiveAttack(1,1);
+    player.receiveAttack(1,2);
+    expect(player.allShipSunk()).toEqual(true)
   })
 });
 

@@ -22,11 +22,12 @@ document.addEventListener("DOMContentLoaded", () => {
   computer.placeShip(1,2, 5, "vertical");
 
 
-
+  
   game.playerTurn();
-  game.computerTurn();
 
-
+  if(player.allShipSunk === true || computer.allShipSunk ===true) {
+    console.log("done")
+  }
 
 });
 
