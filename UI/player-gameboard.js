@@ -17,7 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const computerBlocks = document.querySelectorAll(".computerBlock");
   player.placeShip(1, 1, 5, "vertical");
+
   computer.placeShip(1, 1, 5, "vertical");
+  computer.placeShip(1,2, 5, "vertical");
+
 
 
   game.playerTurn();

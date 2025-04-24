@@ -6,25 +6,27 @@ export class GameBoard {
   }
 
   placeShip(x, y, length, direction = "horizontal") {
-    const ship = new Ship(length);
-
     for (let i = 0; i < length; i++) {
       let xi = x + (direction === "vertical" ? i : 0);
       let yi = y + (direction === "horizontal" ? i : 0);
 
       if (
-        xi > this.board.length ||
-        yi > this.board[0].length ||
+        xi >= this.board.length ||
+        yi >= this.board[0].length ||
         this.board[xi][yi] !== null
       ) {
         throw new Error("invalid ship placement");
       }
     }
 
+    const ship = new Ship(length);
+    ship.positions = []
+
     for (let i = 0; i < length; i++) {
       let xi = x + (direction === "vertical" ? i : 0);
       let yi = y + (direction === "horizontal" ? i : 0);
       this.board[xi][yi] = ship;
+      ship.positions.push({row: xi, col: yi})
     }
 
     this.ships.push(ship);
@@ -34,13 +36,11 @@ export class GameBoard {
     if (x > 10 || y > 10) throw new Error("out of bounds");
     if (typeof this.board[x][y] === "object" && this.board[x][y] !== null) {
       const ship = this.board[x][y];
-      this.board[x][y] = "hit";
+    //  this.board[x][y] = "hit";
       ship.shipHit();
       ship.isSunk();
-    } else {
-      this.board[x][y] = "missed";
+      return this.board[x][y]
     }
-    return this.board[x][y]
   }
 
   renderGameBoard(gameboard, className, containerName) {
@@ -54,8 +54,20 @@ export class GameBoard {
     });
   }
 
+  revealShip(blocks, ship) {
+    ship.positions.forEach((position) => {
+      const index = Math.floor(position.row * 10) + position.col;
+      const targetBlock = blocks[index];
+      targetBlock.style.backgroundColor = "red";
+    });
+  }
+
   allShipSunk(){
     return this.ships.every(ship => ship.sunk)
+  }
+
+  getShip(x, y) {
+    return 
   }
   
 
