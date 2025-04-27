@@ -20,13 +20,13 @@ export class GameBoard {
     }
 
     const ship = new Ship(length);
-    ship.positions = []
+    ship.positions = [];
 
     for (let i = 0; i < length; i++) {
       let xi = x + (direction === "vertical" ? i : 0);
       let yi = y + (direction === "horizontal" ? i : 0);
       this.board[xi][yi] = ship;
-      ship.positions.push({row: xi, col: yi})
+      ship.positions.push({ row: xi, col: yi });
     }
 
     this.ships.push(ship);
@@ -36,10 +36,10 @@ export class GameBoard {
     if (x > 10 || y > 10) throw new Error("out of bounds");
     if (typeof this.board[x][y] === "object" && this.board[x][y] !== null) {
       const ship = this.board[x][y];
-    //  this.board[x][y] = "hit";
+      //  this.board[x][y] = "hit";
       ship.shipHit();
       ship.isSunk();
-      return this.board[x][y]
+      return this.board[x][y];
     }
   }
 
@@ -62,13 +62,18 @@ export class GameBoard {
     });
   }
 
-  allShipSunk(){
-    return this.ships.every(ship => ship.sunk)
+  showShips() {
+    const blocks = document.querySelectorAll(".playBlock");
+    this.board.forEach((row, i) => row.forEach((block, j) => {
+      if (block !== null) {
+        const index = i * 10 + j
+        blocks[index].style.backgroundColor = "pink"
+      }
+    }))
   }
-
-
   
 
-
-
+  allShipSunk() {
+    return this.ships.every((ship) => ship.sunk);
+  }
 }

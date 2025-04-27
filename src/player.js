@@ -1,4 +1,5 @@
 import { GameBoard } from "./gameboard.js";
+import { newGame } from "../UI/player-gameboard.js";
 export class Player {
   constructor() {
     this.player = new GameBoard();
@@ -33,15 +34,15 @@ export class Player {
           let row = Math.floor(i / 10);
           let col = i % 10;
           const ship = this.computer.receiveAttack(row, col);
-          console.log(ship)
           if (typeof ship === "object") {
             event.target.innerHTML = "X";
             if (ship.sunk) {
               this.computer.revealShip(computerBlock, ship);
             }
-            if(this.computer.allShipSunk()){
-              alert("computer win")
-            }          } else {
+            if (this.computer.allShipSunk()) {
+              alert("player win");
+            }
+          } else {
             event.target.innerHTML = "O";
             this.switchTurn();
             this.blockBoard();
@@ -53,20 +54,32 @@ export class Player {
   }
 
   computerTurn() {
+    if (!this.computerMoves) {
+      this.computerMoves = new Set(); // Track previous moves
+    }
+  
     const playerBlocks = document.querySelectorAll(".playBlock");
-    const computerChoice = Math.floor(Math.random() * 100);
+  
+    let computerChoice;
+    do {
+      computerChoice = Math.floor(Math.random() * 100);
+    } while (this.computerMoves.has(computerChoice));
+  
+    this.computerMoves.add(computerChoice); // Store the move
     const x = Math.floor(computerChoice / 10);
     const y = computerChoice % 10;
     const ship = this.player.receiveAttack(x, y);
-
+  
     if (typeof ship === "object") {
       playerBlocks[computerChoice].innerHTML = "X";
       if (ship.sunk) {
         this.player.revealShip(playerBlocks, ship);
       }
-
-      if(this.player.allShipSunk()){
-        alert("computer win")
+  
+      if (this.player.allShipSunk()) {
+        alert("computer win");
+      } else {
+        setTimeout(() => this.computerTurn(), 500); // Add delay to avoid stack overflow
       }
     } else {
       playerBlocks[computerChoice].innerHTML = "O";
@@ -74,4 +87,5 @@ export class Player {
       this.blockBoard();
     }
   }
+  
 }
